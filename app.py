@@ -4,7 +4,6 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from PIL import Image
 import numpy as np
-import os
 
 st.set_page_config(page_title="Identifikasi Mutu Biji Kopi", layout="wide")
 
@@ -13,12 +12,7 @@ st.subheader("Standarisasi Kualitas Ekspor dengan MobileNetV2")
 
 @st.cache_resource
 def load_model_cached():
-    model_path = 'model_final_v2.h5'
-    if not os.path.exists(model_path):
-        import urllib.request
-        url = "https://raw.githubusercontent.com/Lian050306/biji_kopi/main/model_final_v2.h5"
-        urllib.request.urlretrieve(url, model_path)
-    model = load_model(model_path, compile=False)
+    model = load_model('model_final.keras', compile=False)
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
@@ -31,8 +25,6 @@ class_info = {
     'asalan': {'label': 'Asalan', 'rekomendasi': 'Perlu pemrosesan ulang', 'layak_ekspor': False},
     'rusak': {'label': 'Rusak', 'rekomendasi': 'Harus disortir', 'layak_ekspor': False}
 }
-
-st.markdown("---")
 
 uploaded_file = st.file_uploader("Upload gambar biji kopi", type=['jpg', 'jpeg', 'png'])
 
