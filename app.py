@@ -12,8 +12,7 @@ st.subheader("Standarisasi Kualitas Ekspor dengan MobileNetV2")
 
 @st.cache_resource
 def load_model_cached():
-    model = load_model('model_final.keras', compile=False)
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    model = load_model('model_final.h5')
     return model
 
 model = load_model_cached()
@@ -64,3 +63,4 @@ if uploaded_file is not None:
         persentase = float(predictions[0][i] * 100)
         st.progress(persentase/100)
         st.write(f"{class_info[kelas]['label']}: {persentase:.2f}%")
+        
