@@ -13,12 +13,13 @@ st.subheader("Standarisasi Kualitas Ekspor dengan MobileNetV2")
 
 @st.cache_resource
 def load_model_cached():
-    model_path = 'model_final.keras'
+    model_path = 'model_final_v2.h5'
     if not os.path.exists(model_path):
         import urllib.request
-        url = "https://raw.githubusercontent.com/Lian050306/biji_kopi/main/model_final.keras"
+        url = "https://raw.githubusercontent.com/Lian050306/biji_kopi/main/model_final_v2.h5"
         urllib.request.urlretrieve(url, model_path)
-    model = load_model(model_path)
+    model = load_model(model_path, compile=False)
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
 model = load_model_cached()
